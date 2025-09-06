@@ -1,0 +1,69 @@
+
+http://127.0.0.1:5000/
+
+https://youtu.be/LDCqZ48traM?si=odKiacmYwJwcbttf
+
+import cv2
+import cvlib as cv
+from cvlib.object_detection import draw_bbox
+
+
+
+"""
+# Path to your video
+video_path = r"C:\\Users\\Tharushi Umayangana\\Desktop\\project1\\pplwalk.mp4"
+
+# Open the video
+cap = cv2.VideoCapture(video_path)
+
+# Check if video opened successfully
+if not cap.isOpened():
+    print("Error: Could not open video.")
+    exit()
+
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        print("Video has ended or cannot read the frame.")
+        break
+
+    # Resize the frame (optional, makes it easier to view)
+    frame = cv2.resize(frame, (800, 600))
+
+    # Show the video
+    cv2.imshow("Video Test", frame)
+
+    # Press 'q' to quit early
+    if cv2.waitKey(30) & 0xFF == ord('q'):
+        break
+
+# Release resources
+cap.release()
+cv2.destroyAllWindows()
+
+"""
+video_path = r"C:\Users\Tharushi Umayangana\Desktop\project1\pplwalk.mp4"
+cap = cv2.VideoCapture(video_path)
+
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    # Use local config and weights files
+    bbox, labels, conf = cv.detect_common_objects(
+        frame,
+        model='yolov4-tiny',
+       config=r"C:\Users\Tharushi Umayangana\Desktop\project1\yolov4-tiny.cfg",
+       weights=r"C:\Users\Tharushi Umayangana\Desktop\project1\yolov4-tiny.weights"
+    )
+
+    out = draw_bbox(frame, bbox, labels, conf)
+
+    cv2.imshow("People Detection", out)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
